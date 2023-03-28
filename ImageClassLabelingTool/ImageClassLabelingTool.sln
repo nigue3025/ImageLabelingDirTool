@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33423.256
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageClassLabelingTool", "ImageClassLabelingTool\ImageClassLabelingTool.csproj", "{39102A3D-697F-4F1E-821D-968C11CBB805}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39102A3D-697F-4F1E-821D-968C11CBB805}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39102A3D-697F-4F1E-821D-968C11CBB805}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39102A3D-697F-4F1E-821D-968C11CBB805}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39102A3D-697F-4F1E-821D-968C11CBB805}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C2F92C0F-1C9E-4A68-AE58-D27E45D4D115}
+	EndGlobalSection
+EndGlobal
