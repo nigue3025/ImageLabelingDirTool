@@ -26,6 +26,7 @@ namespace ImageClassLabelingTool
     {
         string fullpath = null;
         string filename = null;
+        string category = null;
         public event PropertyChangedEventHandler PropertyChanged;
         public ImageFileData(string path)
         {
@@ -54,6 +55,18 @@ namespace ImageClassLabelingTool
             set
             {
                 filename = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public string Category
+        {
+            get
+            {
+                return category;
+            }
+            set
+            {
+                category = value;
                 NotifyPropertyChanged();
             }
         }
@@ -210,10 +223,52 @@ namespace ImageClassLabelingTool
 
         private void lstbx_fileLst_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key== Key.Enter)
+            //目前只能標1~9個類別 (可由鍵盤1~9直接標示對應的類別順序)
+            int keyVal = (int)e.Key;
+            int numKey = keyVal - 35;
+            if (numKey >= 0 && numKey <= 8)
+                if (numKey < lstView_class.Items.Count)
+                {
+                    lstView_class.SelectedIndex = numKey;
+                    var selectedClass = lstView_class.Items[numKey] as CategorizedLabel;
+                    (lstbx_fileLst.SelectedItem as ImageFileData).Category = selectedClass.ClassName;
+
+                }
+
+
+            //if(e.Key== Key.Enter)
+            //{
+            //    btn_confirmClass_Click(this, null);
+            //}
+        }
+
+        private void lstbx_fileLst_KeyUp(object sender, KeyEventArgs e)
+        {
+           
+        }
+
+        private void btn_moveFile_Click(object sender, RoutedEventArgs e)
+        {
+            HashSet<ImageFileData> movedFileLst = new HashSet<ImageFileData>();
+            foreach(var selectedFile in files)
             {
-                btn_confirmClass_Click(this, null);
+                if (selectedFile.Category == null) continue;
+
+                var flPathLst = selectedFile.Fullpath.Split('\\').ToList();
+                flPathLst = flPathLst.Where((a, i) => i < flPathLst.Count - 1).Select(a => a).ToList();
+                var curDir = string.Join("\\", flPathLst);
+
+                var newPath = $"{curDir}\\{ selectedFile.Category}\\{selectedFile.Filename}";
+                System.IO.File.Move(selectedFile.Fullpath, newPath);
+                movedFileLst.Add(selectedFile);
             }
+            foreach (var fl in movedFileLst)
+                files.Remove(fl);
+
+            lstbx_fileLst.Items.Refresh();
+            movedFileLst.Clear();
+
+       
         }
     }
 }

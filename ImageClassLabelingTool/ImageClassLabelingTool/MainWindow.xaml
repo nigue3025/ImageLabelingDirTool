@@ -32,10 +32,20 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Orientation="Vertical">
                     <Label>File listed:</Label>
-                    <ListView Height="150"  x:Name="lstbx_fileLst" SelectionChanged="lstbx_fileLst_SelectionChanged" KeyDown="lstbx_fileLst_KeyDown" >
+                    <ListView Height="150"  x:Name="lstbx_fileLst" SelectionChanged="lstbx_fileLst_SelectionChanged" KeyDown="lstbx_fileLst_KeyDown" KeyUp="lstbx_fileLst_KeyUp" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Filename}"/>
+
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}, {1}">
+                                            <Binding Path="Filename" />
+                                            <Binding Path="Category"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+
+                                </TextBlock>
+                                
                             </DataTemplate>
                         </ListView.ItemTemplate>
                         
@@ -56,7 +66,7 @@
                     </ListView>
                     <Button Margin="0,0,0,1" Name="btn_removeClass" Click="btn_removeClass_Click">Remove</Button>
                     <Button Margin="0,0,0,10" Name="btn_resetClasses">Reset All</Button>
-
+                    <Button Margin="0,0,0,10" Name="btn_moveFile" Click="btn_moveFile_Click">Move labled to directory</Button>
                 </StackPanel>
             </Grid>
             <Grid DockPanel.Dock="Top" Margin="0,10,15,0" HorizontalAlignment="Left" Name="grid1" ShowGridLines="True" Width="350" Height="300">
