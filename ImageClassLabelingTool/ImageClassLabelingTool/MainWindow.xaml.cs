@@ -155,21 +155,32 @@ namespace ImageClassLabelingTool
             if (selected is ImageFileData)
             {
 
-               // BitmapImage Bimg = new BitmapImage(new Uri((selected as ImageFileData).Fullpath));
-               //// Bimg.BeginInit();
-               // //Bimg.UriSource = source;
-               // Bimg.CacheOption = BitmapCacheOption.OnLoad;
-               // //Bimg.EndInit();
-               // img_show.Source = Bimg;
+                // BitmapImage Bimg = new BitmapImage(new Uri((selected as ImageFileData).Fullpath));
+                //// Bimg.BeginInit();
+                // //Bimg.UriSource = source;
+                // Bimg.CacheOption = BitmapCacheOption.OnLoad;
+                // //Bimg.EndInit();
+                // img_show.Source = Bimg;
+                var fs = new System.IO.FileStream((selected as ImageFileData).Fullpath, System.IO.FileMode.Open);
 
+                Bitmap bitmap = new Bitmap(fs);
+                bitmap= BitmapConverter.resizeImage(bitmap, new System.Drawing.Size(500, 500));
+             
+                var bitmapImage = BitmapConverter.Bitmap2BitmapImage(bitmap);
+                fs.Close();
+                //BitmapImage bitmapImage = new BitmapImage();
+                //bitmapImage.BeginInit();
+                //bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
 
-                BitmapImage bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.UriSource = new Uri((selected as ImageFileData).Fullpath);//szPath为图片的全路径
-                bitmapImage.EndInit();
-                bitmapImage.Freeze();
+                //bitmapImage.UriSource = new Uri((selected as ImageFileData).Fullpath);//szPath为图片的全路径
+
+                //bitmapImage.EndInit();
+                //bitmapImage.Freeze();
+                bitmap.Dispose();
+               
                 img_show.Source = bitmapImage;
+                
+
             }
         }
 
@@ -221,21 +232,24 @@ namespace ImageClassLabelingTool
             
         }
 
+
+        List<ImageFileData> attributedImages = new List<ImageFileData>();
         private void lstbx_fileLst_KeyDown(object sender, KeyEventArgs e)
         {
             //目前只能標1~9個類別 (可由鍵盤1~9直接標示對應的類別順序)
             int keyVal = (int)e.Key;
             int numKey = keyVal - 35;
+          
             if (numKey >= 0 && numKey <= 8)
                 if (numKey < lstView_class.Items.Count)
                 {
                     lstView_class.SelectedIndex = numKey;
                     var selectedClass = lstView_class.Items[numKey] as CategorizedLabel;
                     (lstbx_fileLst.SelectedItem as ImageFileData).Category = selectedClass.ClassName;
-
+                    attributedImages.Add(lstbx_fileLst.SelectedItem as ImageFileData);
                 }
 
-
+            lbl_progress.Content = $"{attributedImages.Where(a=>a.Category!=null).Select(a=>a).Count()}/{lstbx_fileLst.Items.Count}";
             //if(e.Key== Key.Enter)
             //{
             //    btn_confirmClass_Click(this, null);
@@ -258,7 +272,14 @@ namespace ImageClassLabelingTool
                 flPathLst = flPathLst.Where((a, i) => i < flPathLst.Count - 1).Select(a => a).ToList();
                 var curDir = string.Join("\\", flPathLst);
 
-                var newPath = $"{curDir}\\{ selectedFile.Category}\\{selectedFile.Filename}";
+                var folderPath= $"{curDir}\\{selectedFile.Category}";
+
+                if (!System.IO.Directory.Exists(folderPath))
+                    System.IO.Directory.CreateDirectory(folderPath);
+
+                var newPath = $"{folderPath}\\{selectedFile.Filename}";
+                
+                
                 System.IO.File.Move(selectedFile.Fullpath, newPath);
                 movedFileLst.Add(selectedFile);
             }

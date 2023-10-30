@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageClassLabelingTool"
         mc:Ignorable="d"
-        Title="Image Labeling Tool" Height="550" Width="800" Loaded="Window_Loaded">
+        Title="Image Labeling Tool" Height="602" Width="856" Loaded="Window_Loaded">
     <Border BorderBrush="Black" Background="White" BorderThickness="2">
         <DockPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10">
             <!--<TextBlock FontSize="20" FontWeight="Bold" DockPanel.Dock="Top">Grid Methods Sample</TextBlock>-->
@@ -14,7 +14,7 @@
                 <TextBox Width="50" Name="txtbx_fileExtension">jpg</TextBox>
 
             </StackPanel>
-            
+
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <Label>Folder:</Label>
                 <TextBox Width="370" Margin="0,0,10,0" Name="txtbx_folderpath"></TextBox>
@@ -31,7 +31,11 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Orientation="Vertical">
-                    <Label>File listed:</Label>
+                    <StackPanel Orientation="Horizontal">
+                        <Label>File listed:</Label>
+                        <Label Name="lbl_progress"></Label>
+                    </StackPanel>
+                    
                     <ListView Height="150"  x:Name="lstbx_fileLst" SelectionChanged="lstbx_fileLst_SelectionChanged" KeyDown="lstbx_fileLst_KeyDown" KeyUp="lstbx_fileLst_KeyUp" >
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -45,13 +49,13 @@
                                     </TextBlock.Text>
 
                                 </TextBlock>
-                                
+
                             </DataTemplate>
                         </ListView.ItemTemplate>
-                        
-                        
+
+
                     </ListView>
-   
+
                     <StackPanel Orientation="Horizontal">
                         <Label>ClassName:</Label>
                         <TextBox Width="70" Name="txtbx_className"></TextBox>
@@ -71,10 +75,10 @@
             </Grid>
             <Grid DockPanel.Dock="Top" Margin="0,10,15,0" HorizontalAlignment="Left" Name="grid1" ShowGridLines="True" Width="350" Height="300">
                 <StackPanel Orientation="Vertical" KeyUp="StackPanel_KeyUp">
-                    <Label >image:</Label>
+                    <Label>image:</Label>
 
-                    <Image x:Name="img_show">
-                     
+                    <Image x:Name="img_show" Width="200" Height="200">
+
                     </Image>
                 </StackPanel>
             </Grid>
@@ -91,7 +95,7 @@
                 <Button x:Name="btn_confirmClass" Click="btn_confirmClass_Click">confirm</Button>
             </StackPanel>
             <TextBlock DockPanel.Dock="Top" Name="tb_filename"/>
-  
+
         </DockPanel>
     </Border>
 </Window>
